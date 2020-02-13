@@ -286,6 +286,7 @@ public class VentanaJuego extends javax.swing.JFrame {
                 break;
             case KeyEvent.VK_SPACE:
                 Disparo d = new Disparo();
+                d.sonidoDisparo.start();
                 d.posicionaDisparo(miNave);
                 //agregamos el disparo a la lista de disparos
                 listaDisparos.add(d);
