@@ -3,6 +3,7 @@ package codigo;
 
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
 
 /**
  *
@@ -18,6 +19,12 @@ public class Nave {
     
     
     public Nave(){
+        try{
+                imagen=ImageIO.read(getClass().getResource("/imagenes/navewayway.png"));
+                
+            }
+            catch(Exception e){
+            }
 
     }
     
