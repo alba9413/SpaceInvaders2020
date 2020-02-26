@@ -16,6 +16,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.Timer;
 
 /**
@@ -36,7 +38,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     BufferedImage plantilla = null;
     Image[] imagenes = new Image[30];
     Image imagen2,imgNave= null;
-    
+    Clip sonidoFondo;
     Timer temporizador = new Timer(10, new ActionListener() {//bucle de animacion del juego. refresca el contenido de la pantalla
         
         
@@ -65,13 +67,19 @@ public class VentanaJuego extends javax.swing.JFrame {
     public VentanaJuego() {
 
         initComponents();
-        sonidoFondo musica = new sonidoFondo();
-        musica.start();
         try {
             imagen2 = ImageIO.read(getClass().getResource("/imagenes/fondostars.png"));
             plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
             imgNave=ImageIO.read(getClass().getResource("/imagenes/navewayway.png"));
         } catch (IOException ex) {
+        }
+        try {
+            sonidoFondo = AudioSystem.getClip();
+            sonidoFondo.open(
+                    AudioSystem.getAudioInputStream(
+                            getClass().getResource("/sonidos/Skrillex.wav"))
+            );
+        } catch (Exception ex) {
         }
         
        
@@ -183,8 +191,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     private void bucleJuego() {//redibuja los objetos en el jPanel1
 
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();//borro todo lo que ahi en el buffer
-
-        g2.setColor(Color.BLACK);//doy el color negro a la pantalla
+          g2.setColor(Color.BLACK);//doy el color negro a la pantalla
         g2.fillRect(0, 0, ANCHOPANTALLA, ALTOPANTALLA);
         g2.drawImage(imagen2, 0,0,null);
         ///////////////////////////////////////////////////
@@ -200,7 +207,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         g2 = (Graphics2D) ventana.getGraphics();//dibujo de golpe el buffer sobre el jPanel
         g2.drawImage(buffer, 0, 0, null);
     }
-
+    
     //chequea si un disparo y un marciano colisionan
     private void chequeaColision(){
         Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
@@ -234,16 +241,9 @@ public class VentanaJuego extends javax.swing.JFrame {
                         listaDisparos.remove(k);
                     }
                 }
-            }
-            
-            public class sonidoFondo extends Thread {
-             @Override
-             public void run() {                     
-            SonidoFondo s = new SonidoFondo(); 
-            s.SonidoFondo(s.getClass().getResource("/sonidos/Skrillex.wav").getFile(), 71000);
+            } 
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
