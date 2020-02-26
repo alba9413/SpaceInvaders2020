@@ -67,19 +67,23 @@ public class VentanaJuego extends javax.swing.JFrame {
     public VentanaJuego() {
 
         initComponents();
+        
         try {
             imagen2 = ImageIO.read(getClass().getResource("/imagenes/fondostars.png"));
             plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
             imgNave=ImageIO.read(getClass().getResource("/imagenes/navewayway.png"));
         } catch (IOException ex) {
         }
+        
         try {
             sonidoFondo = AudioSystem.getClip();
             sonidoFondo.open(
                     AudioSystem.getAudioInputStream(
-                            getClass().getResource("/sonidos/Skrillex.wav"))
+                            getClass().getResource("/sonidos/fondo.wav"))
             );
+            sonidoFondo.start();
         } catch (Exception ex) {
+            System.out.print(ex.getMessage());
         }
         
        
